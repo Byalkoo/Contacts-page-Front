@@ -1,0 +1,16 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+.table {
+    display: grid;
+    grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px 100px;
+
+}
+.login {
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+    width: fit-content;
+}
