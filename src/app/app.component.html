@@ -3,38 +3,20 @@
     <div class="table">
       <ng-container><p>Imie</p>
       <p>Nazwisko</p>
-      <p>Email</p>
       <p>Telefon</p>
       <p>Kategoria</p>
-      <p>Podkategoria</p>
-      <p>Data urodzenia</p>
-      <p>Haslo</p>
-      </ng-container>
       <button>+</button>
+      </ng-container>
       @for (contact of contactList; track $index) {
-        <ng-container><input value={{contact.Name}} #NewFirstName>
-        <input value={{contact.LastName}} #NewLastName>
-        <input value={{contact.Email}} #NewEmail>
-        <input value={{contact.Phone}} #NewPhone type="number">
-        <select #NewCategory>
-          <option value={{contact.Category}} disabled selected>{{contact.Category}}</option>
-          <option value="sluzbowy">sluzbowy</option>
-          <option value="prywatny">prywatny</option>
-          <option value="inny">inny</option>
-        </select>
-        <input #NewCategorySecondary *ngIf="">
-          <select #NewCategorySecondary>
-            <option value="szef" *ngIf="NewCategory.value == 'sluzbowy';">szef</option>
-            <option value="klient" *ngIf="NewCategory.value == 'sluzbowy';">klient</option>
-            <option value="rodzina" *ngIf="NewCategory.value == 'prywatny';">rodzina</option>
-            <option value="znajomy" *ngIf="NewCategory.value == 'prywatny';">znajomy</option>
-            <option value="znajomy" *ngIf="NewCategory.value != 'prywatny' && NewCategory.value != 'sluzbowy';">znajomy</option>
-          </select>
-        <input value={{contact.DateOfBirth}} #NewDate>
-        <input value="" placeholder="********" type="password" #NewPassword>
-        <button (click)="sendEditRequest(this.contact, NewFirstName.value,NewLastName.value,NewEmail.value,NewPhone.value,NewCategory.value, NewCategorySecondary.value, NewDate.value, NewPassword.value)">Edit</button>     
+        <ng-container>
+        <p >{{contact.Name}} </p>
+        <p >{{contact.LastName}}</p>
+        <p>{{contact.Phone}} </p>
+        <p>{{contact.Category}} </p>
+        <button (click)="toggleStepper = !toggleStepper; number = $index">Edit</button>
       </ng-container>
       }
+      <app-form style="position: absolute;" *ngIf="toggleStepper" [contact]="contactList[number]"></app-form>
     </div>
     
     <div class="form">

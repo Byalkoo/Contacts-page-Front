@@ -5,17 +5,27 @@ import { ApiCallService } from './api-call.Service';
 import { CookieService } from 'ngx-cookie-service';
 import { NgIf } from '@angular/common';
 import { CommonModule } from '@angular/common';
+import { EventEmitter } from "@angular/core";
+import { Output } from "@angular/core";
+import { formComponent } from './form.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgIf, CommonModule],
+  imports: [RouterOutlet, NgIf, CommonModule, formComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   providers: [CookieService]
 })
 export class AppComponent {
   title = 'my-app';
+  toggleStepper = false;
+  number = 0;
+  @Output() onPlusClick = new EventEmitter<boolean>();
+
+  click() {
+    this.onPlusClick.emit(true);
+  }
 
   contactList!: Contact[];
   dataSource: any;
@@ -29,26 +39,6 @@ export class AppComponent {
     this.apiCallService.getContact().subscribe(data=> {
       this.contactList = data
       console.log(this.contactList)
-    })
-  }
-  public sendEditRequest(contact: Contact, Name: string, LastName: string, Email: string, Phone: string, Category: string, CategorySecondary: string ,DateOfBirth: string, Password: string) {
-    var x = {
-      "name": Name,
-      "lastName": LastName,
-      "email": Email,
-      "password": Password,
-      "category": Category,
-      "dateOfBirth": DateOfBirth,
-      "phone": parseInt(Phone),
-      "oldEmail": contact.Email
-    }
-    this.apiCallService.callApi(x, 2, this.cookieService.get("token")).subscribe( {
-      next: (res : any) => {
-        console.log(res)
-      },
-      error: (err: any) => {
-        console.log(err)
-      }
     })
   }
   public sendAddRequest(Name: string, LastName: string, Email: string, Phone: string, Category: string, CategorySecondary: string, DateOfBirth: string, Password: string, PasswordCheck: string) {
