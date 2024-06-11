@@ -12,11 +12,16 @@ import { NgIf } from '@angular/common';
     standalone: true,
     imports: [RouterOutlet, NgIf],
     templateUrl: './form.component.html',
+    styleUrl: './form.component.scss',
     providers: [CookieService]
   })
 export class formComponent {
     @Input() contact!: Contact;
     constructor(private apiCallService: ApiCallService, private cookieService: CookieService) {
+
+    }
+    token = this.cookieService.get("token")
+    ngOnInit(){
 
     }
     public sendEditRequest(contact: Contact, Name: string, LastName: string, Email: string, Phone: string, Category: string, CategorySecondary: string ,DateOfBirth: string, Password: string) {

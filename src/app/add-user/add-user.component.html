@@ -1,0 +1,24 @@
+<main>
+    <div class="form">
+        <input type="text" name="Name" placeholder="Imie" #Name>
+        <input type="text" name="LastName" placeholder="Nazwisko" #LastName>
+        <input type="email" name="Email" placeholder="Email" #Email>
+        <input type="text" name="Phone" placeholder="Numer telefonu" #Phone>
+        <select #Category (change)="ngOnInit()">
+          <option value="sluzbowy">sluzbowy</option>
+          <option value="prywatny">prywatny</option>
+          <option value="inny">inny</option>
+        </select>
+        <select #CategorySecondary>
+            <option value="szef" *ngIf="Category.value == 'sluzbowy'">szef</option>
+            <option value="Wspolpracownik" *ngIf="Category.value == 'sluzbowy'">Wspolpracownik</option>
+            <option value="znajomy" *ngIf="Category.value == 'prywatny'">znajomy</option>
+            <option value="rodzina" *ngIf="Category.value == 'prywatny'">rodzina</option>
+            <option value="rodzina" *ngIf="Category.value != 'prywatny' && Category.value != 'sluzbowy'">inny</option>
+        </select>
+        <input type="date" name="DateOfBirth" placeholder="Data urodzenia" #DateOfBirth>
+        <input type="password" placeholder="Haslo" #Password>
+        <input type="password" placeholder="Powtorz Haslo" #PasswordCheck>
+        <button (click)="sendAddRequest(Name.value, LastName.value, Email.value, Phone.value, Category.value, CategorySecondary.value, DateOfBirth.value, Password.value, PasswordCheck.value)">Dodaj</button>
+      </div>
+</main>

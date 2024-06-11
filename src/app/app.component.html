@@ -5,7 +5,7 @@
       <p>Nazwisko</p>
       <p>Telefon</p>
       <p>Kategoria</p>
-      <button>+</button>
+      <button (click)="toggleAdd = !toggleAdd" [disabled]="token == ''" (click)="ngOnInit()" >+</button>
       </ng-container>
       @for (contact of contactList; track $index) {
         <ng-container>
@@ -13,33 +13,22 @@
         <p >{{contact.LastName}}</p>
         <p>{{contact.Phone}} </p>
         <p>{{contact.Category}} </p>
-        <button (click)="toggleStepper = !toggleStepper; number = $index">Edit</button>
+        <button (click)="toggleEdit = !toggleEdit; number = $index" (click)="ngOnInit()">More</button>
       </ng-container>
       }
-      <app-form style="position: absolute;" *ngIf="toggleStepper" [contact]="contactList[number]"></app-form>
-    </div>
-    
-    <div class="form">
-      <input type="text" name="Name" placeholder="Imie" #Name>
-      <input type="text" name="LastName" placeholder="Nazwisko" #LastName>
-      <input type="email" name="Email" placeholder="Email" #Email>
-      <input type="text" name="Phone" placeholder="Numer telefonu" #Phone>
-      <select #Category>
-        <option value="sluzbowy">sluzbowy</option>
-        <option value="prywatny">prywatny</option>
-        <option value="inny">inny</option>
-      </select>
-      <input type="text" name="CategorySecondary" placeholder="" #CategorySecondary>
-      <input type="date" name="DateOfBirth" placeholder="Data urodzenia" #DateOfBirth>
-      <input type="password" placeholder="Haslo" #Password>
-      <input type="password" placeholder="Powtorz Haslo" #PasswordCheck>
-      <button (click)="sendAddRequest(Name.value, LastName.value, Email.value, Phone.value, Category.value, CategorySecondary.value, DateOfBirth.value, Password.value, PasswordCheck.value)">Dodaj</button>
+      <app-form *ngIf="toggleEdit" [contact]="contactList[number]"></app-form>
+      <app-add-user *ngIf="toggleAdd"></app-add-user>
     </div>
     <div class="login">
-      <input type="email" #loginEmail placeholder="Email">
-      <input type="password" #loginPassword placeholder="Haslo">
-      <button (click)="login(loginEmail.value,loginPassword.value)">Zaloguj</button>
+      <p *ngIf="token != ''">Jestes zalogowany!</p>
+      <form *ngIf="token == ''">
+        <input type="email" #loginEmail placeholder="Email">
+        <input type="password" #loginPassword placeholder="Haslo">
+        <button (click)="login(loginEmail.value,loginPassword.value)" type="button">Zaloguj</button>
+        <p *ngIf="loginErr != '' ">{{loginErr}}</p>
+      </form>
     </div>
+
   </div>
 </main>
 

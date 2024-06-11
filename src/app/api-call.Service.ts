@@ -16,7 +16,7 @@ export class ApiCallService {
           
 
     getContact(): Observable<any> {
-        return this.httpclient.get('https://localhost:7240/api/Contacts/GetAllContacts')
+        return this.httpclient.get('http://localhost:5272/api/Contacts/GetAllContacts')
     }
 
     callApi(newContact: object, x: number, token: string): Observable<any>{
@@ -24,9 +24,9 @@ export class ApiCallService {
         .append('Content-type', 'application/json')
         .append('Authorization', `Bearer ${token}`);
         if(x == 2) {
-            var url = 'https://localhost:7240/api/Contacts/EditContact';
+            var url = 'http://localhost:5272/api/Contacts/EditContact';
         }else {
-            var url = 'https://localhost:7240/api/Contacts/AddContact';
+            var url = 'http://localhost:5272/api/Contacts/AddContact';
         }
         return this.httpclient.post(url, newContact, {
             headers: headers
@@ -38,7 +38,7 @@ export class ApiCallService {
         const params = new HttpParams()
         .append("Email", email)
         .append("Password", password);       
-        return this.httpclient.post('https://localhost:7240/login', null, {
+        return this.httpclient.post('http://localhost:5272/login', null, {
             headers: headers,
             params: params
         })

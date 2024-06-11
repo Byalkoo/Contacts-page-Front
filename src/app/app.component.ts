@@ -5,27 +5,24 @@ import { ApiCallService } from './api-call.Service';
 import { CookieService } from 'ngx-cookie-service';
 import { NgIf } from '@angular/common';
 import { CommonModule } from '@angular/common';
-import { EventEmitter } from "@angular/core";
-import { Output } from "@angular/core";
 import { formComponent } from './form.component';
+import { AddUserComponent } from './add-user/add-user.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgIf, CommonModule, formComponent],
+  imports: [RouterOutlet, NgIf, CommonModule, formComponent, AddUserComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   providers: [CookieService]
 })
 export class AppComponent {
   title = 'my-app';
-  toggleStepper = false;
+  toggleEdit = false;
+  toggleAdd = false;
   number = 0;
-  @Output() onPlusClick = new EventEmitter<boolean>();
-
-  click() {
-    this.onPlusClick.emit(true);
-  }
+  token = this.cookieService.get("token");
+  loginErr = ""
 
   contactList!: Contact[];
   dataSource: any;
@@ -34,6 +31,7 @@ export class AppComponent {
   }
   ngOnInit() {
     this.fetchContact()
+    console.log(this.token)
   }
   fetchContact(){
     this.apiCallService.getContact().subscribe(data=> {
@@ -41,39 +39,17 @@ export class AppComponent {
       console.log(this.contactList)
     })
   }
-  public sendAddRequest(Name: string, LastName: string, Email: string, Phone: string, Category: string, CategorySecondary: string, DateOfBirth: string, Password: string, PasswordCheck: string) {
-    console.log(Password)
-    console.log(PasswordCheck)
-    if(Password == PasswordCheck) {
-      var x = {
-        "name": Name,
-        "lastName": LastName,
-        "email": Email,
-        "password": Password,
-        "category": Category,
-        "dateOfBirth": DateOfBirth,
-        "phone": parseInt(Phone),
-      }
-      this.apiCallService.callApi(x, 1, this.cookieService.get("token")).subscribe( {
-        next: (res : any) => {
-          console.log(res)
-        },
-        error: (err: any) => {
-          console.log(err)
-        }    
-    })
-    this.fetchContact()
-    }
-
-  }
   public login(email: string, password: string) {
     this.apiCallService.ApiLogin(email, password).subscribe({
       next: (res : any) => {
         this.cookieService.set("token", res["token"], 0.01)
+        window.location.reload()
       },
       error: (err: any) => {
         console.log(err)
+        this.loginErr = "Nie prawidlowy email albo haslo"
       }   
     })
+    this.ngOnInit();
   }
 }
