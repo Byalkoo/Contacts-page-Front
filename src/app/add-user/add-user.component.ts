@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ApiCallService } from '../api-call.Service';
 import { CookieService } from 'ngx-cookie-service';
 import { NgIf } from '@angular/common';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-add-user',
@@ -16,6 +17,7 @@ export class AddUserComponent {
 
   }
   constructor(private apiCallService: ApiCallService, private cookieService: CookieService) {}
+  // Constructs add request
   public sendAddRequest(Name: string, LastName: string, Email: string, Phone: string, Category: string, CategorySecondary: string, DateOfBirth: string, Password: string, PasswordCheck: string) {
     if(Password == PasswordCheck && Password != "") {
       var x = {
@@ -30,14 +32,13 @@ export class AddUserComponent {
       }
       this.apiCallService.callApi(x, 1, this.cookieService.get("token")).subscribe( {
         next: (res : any) => {
-          console.log(res)
+          console.log(res);
         },
         error: (err: any) => {
-          console.log(err)
-          alert("Kontakt z takim emailem juz istnieje")
+            alert(err.error.text)
+          console.log(err);
         }    
     })
     }
-
   }
 }

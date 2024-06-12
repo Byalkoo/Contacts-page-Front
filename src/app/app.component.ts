@@ -33,12 +33,14 @@ export class AppComponent {
     this.fetchContact()
     console.log(this.token)
   }
+  // Inserts data into variable for later use in html
   fetchContact(){
     this.apiCallService.getContact().subscribe(data=> {
       this.contactList = data
       console.log(this.contactList)
     })
   }
+  // Sends login request and saves token in cookies
   public login(email: string, password: string) {
     this.apiCallService.ApiLogin(email, password).subscribe({
       next: (res : any) => {

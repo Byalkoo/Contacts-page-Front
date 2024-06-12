@@ -24,6 +24,7 @@ export class formComponent {
     ngOnInit(){
 
     }
+    // Constructs a call to api
     public sendEditRequest(contact: Contact, Name: string, LastName: string, Email: string, Phone: string, Category: string, CategorySecondary: string ,DateOfBirth: string, Password: string) {
         var x = {
           "name": Name,
@@ -37,10 +38,10 @@ export class formComponent {
         }
         this.apiCallService.callApi(x, 2, this.cookieService.get("token")).subscribe( {
           next: (res : any) => {
-            console.log(res)
+            alert(res.error.text)
           },
           error: (err: any) => {
-            console.log(err)
+            alert(err.error.text)
           }
         })
       }
